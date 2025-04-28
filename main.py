@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-from sklearn import linear_model
+import sklearn.cluster as skc
 
 def histogram_selected_features():
     # histograms of selected features
@@ -33,9 +33,13 @@ def correlation_analysis():
     plt.savefig("figures/corr_matrix.pdf")
 
 # load data
-data_path = "data/HR_data.csv"
+data_path = "data/HR_data_cleaned.csv"
 df = pd.read_csv(data_path)
 
-X = np.array(df[df.columns[1:]])
+X = np.array(df[df.columns[1:51]])
 N, p = X.shape
-EN_feature_selection()
+
+kmeans = skc.KMeans(n_clusters=5).fit(X)
+mask = kmeans.labels_
+
+for i in range(10):
