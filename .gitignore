@@ -1,1 +1,4 @@
-data/*
+data/
+project_description_files/
+test.py
+results/
