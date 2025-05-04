@@ -3,15 +3,19 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
 
 df = pd.read_csv("data/HR_data_cleaned.csv")
 feature_cols = list([df.columns[55]] + list(df.columns[57:67]))
 X = df[feature_cols]
 
 # --- K-Means clustering ---
-k = 3
-kmeans = KMeans(n_clusters=k)
-labels = kmeans.fit_predict(X)
+sil_scores = []
+for k in range (2,10):
+    kmeans = KMeans(n_clusters=k)
+    labels = kmeans.fit_predict(X)
+    sil_scores.append(silhouette_score(X, labels))
+print(sil_scores)
 
 df_features = df.copy()
 df_features['Cluster'] = labels
